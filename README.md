@@ -1,187 +1,48 @@
+# 🚀 Java Web Application with Spring Boot
 
-
-## ✅ Features
-
-We'll build:
-
-* `GET /tasks` – Get all tasks
-* `POST /tasks` – Create a task
-* `PUT /tasks/{id}/complete` – Mark task as completed
-* `DELETE /tasks/{id}` – Delete task
+This is a **quick guide** for setting up and working with a Java web application using the **Spring Boot framework**. It covers the basic steps from project setup to API creation and testing.
 
 ---
 
-## 📁 Project Structure (Minimal)
+## 🧰 Prerequisites
 
-```
-todoapp/
-├── model/
-│   └── Task.java
-├── controller/
-│   └── TaskController.java
-├── TodoAppApplication.java
-└── application.properties (optional)
-```
+* Java 17+ installed
+* Maven or Gradle installed
+* IDE (e.g., IntelliJ, VS Code)
+* Git
 
 ---
 
-## 🧱 Step-by-Step Implementation
+## 🛠️ Step 1: Project Setup
 
-### 1. **Create the Spring Boot App**
+* Start with a **Java Spring Boot starter project** (e.g., using [Spring Initializr](https://start.spring.io/)).
+* Clone the project and follow the setup instructions in the guide below.
 
-Use [Spring Initializr](https://start.spring.io/) with just **Spring Web** as a dependency.
-
----
-
-### 2. **Task Model**
-
-```java
-package com.example.todoapp.model;
-
-public class Task {
-    private Long id;
-    private String title;
-    private boolean completed;
-
-    public Task() {}
-
-    public Task(Long id, String title) {
-        this.id = id;
-        this.title = title;
-        this.completed = false;
-    }
-
-    // Getters and setters
-
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
-
-    public boolean isCompleted() { return completed; }
-    public void setCompleted(boolean completed) { this.completed = completed; }
-}
-```
+🔗 [Machine Setup & Project Bootstrap Guide](https://github.com/Deepak777K/java-web-app/blob/dev/docs/start.md)
 
 ---
 
-### 3. **Task Controller**
+## 🛠️ Step 2: Create CRUD API Endpoints
 
-```java
-package com.example.todoapp.controller;
+* Implement basic **Create, Read, Update, Delete** operations using Spring Boot.
 
-import com.example.todoapp.model.Task;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.*;
-import java.util.concurrent.atomic.AtomicLong;
-
-@RestController
-@RequestMapping("/tasks")
-public class TaskController {
-
-    private final Map<Long, Task> tasks = new HashMap<>();
-    private final AtomicLong idCounter = new AtomicLong();
-
-    // Get all tasks
-    @GetMapping
-    public List<Task> getAllTasks() {
-        return new ArrayList<>(tasks.values());
-    }
-
-    // Create new task
-    @PostMapping
-    public Task createTask(@RequestBody Task task) {
-        Long id = idCounter.incrementAndGet();
-        Task newTask = new Task(id, task.getTitle());
-        tasks.put(id, newTask);
-        return newTask;
-    }
-
-    // Mark task as completed
-    @PutMapping("/{id}/complete")
-    public ResponseEntity<Task> completeTask(@PathVariable Long id) {
-        Task task = tasks.get(id);
-        if (task != null) {
-            task.setCompleted(true);
-            return ResponseEntity.ok(task);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    // Delete task
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTask(@PathVariable Long id) {
-        if (tasks.containsKey(id)) {
-            tasks.remove(id);
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-}
-```
+🔗 [CRUD Setup & API Docs](https://github.com/Deepak777K/java-web-app/blob/dev/docs/crud.md)
 
 ---
 
-### 4. **Main Application Class**
+## 🛠️ Step 3: Test the API Endpoints
 
-```java
-package com.example.todoapp;
+* Test your API using `curl` or an automated shell script.
+* Make sure each endpoint responds correctly for different operations.
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-@SpringBootApplication
-public class TodoAppApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(TodoAppApplication.class, args);
-    }
-}
-```
+🔗 [API Testing Guide](https://github.com/Deepak777K/java-web-app/blob/dev/docs/test1.md)
 
 ---
 
-## 🧪 Testing the API
+## 📄 Related Docs
 
-You can use Postman or `curl`:
-
-### ➕ Create a task
-
-```bash
-curl -X POST http://localhost:8080/tasks \
-  -H "Content-Type: application/json" \
-  -d '{"title": "Learn Spring Boot"}'
-```
-
-### 📋 Get all tasks
-
-```bash
-curl http://localhost:8080/tasks
-```
-
-### ✅ Complete a task
-
-```bash
-curl -X PUT http://localhost:8080/tasks/1/complete
-```
-
-### ❌ Delete a task
-
-```bash
-curl -X DELETE http://localhost:8080/tasks/1
-```
-
----
-
-## 💡 Note
-
-This app:
-
-* Stores data in memory — once you restart the app, the tasks are gone.
-* Is ideal for **learning CRUD**, testing **API concepts**, or building a **frontend prototype**.
+* [Spring Boot Official Docs](https://spring.io/projects/spring-boot)
+* [REST API Design Best Practices](https://restfulapi.net/)
+* [Spring Data JPA](https://spring.io/projects/spring-data-jpa)
 
 ---
